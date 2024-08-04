@@ -1,0 +1,26 @@
+﻿@using Obligatorio2_P3.DTO
+
+@{
+    ViewData["Title"] = "Resumenes Anuales";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<p>
+    <a asp-action="Index">Volver</a>
+</p>
+
+<ul>
+    @if(ViewBag.Resumenes != null)
+    {
+        @foreach (string item in ViewBag.Resumenes.Resumen)
+        {
+            <li>@item</li>
+        }
+    }
+    else
+    {
+        <li>No hay datos</li>
+    }
+
+</ul>

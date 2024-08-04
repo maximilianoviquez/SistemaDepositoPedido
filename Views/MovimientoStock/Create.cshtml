@@ -1,0 +1,86 @@
+﻿@model Obligatorio2_P3.ViewModels.MovimientoStockFormViewModel
+
+
+<h1>Crear Movimiento</h1>
+
+@if(ViewBag.ErrorCreate != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.ErrorCreate
+    </div>
+}
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="form-group">
+                <label asp-for="Cantidad" class="control-label">Cantidad:</label>
+                <input asp-for="Cantidad" class="form-control" />
+                <span asp-validation-for="Cantidad" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="FechaMovimiento" class="control-label">Fecha del Movimiento:</label>
+                <input asp-for="FechaMovimiento" class="form-control" readonly />
+                <span asp-validation-for="FechaMovimiento" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="TipoMovimientoId">Tipo de Movimiento:</label>
+                <select asp-for="TipoMovimientoId" class="form-control">
+                    <option value="0"> --Seleccione un Tipo de Movimiento-- </option>
+                    @if(Model.posiblesTipos != null)
+                    {
+                        @foreach(var tipos in Model.posiblesTipos)
+                        {
+                            <option value="@tipos.Id">@tipos.Tipo</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ArticuloId">Articulo:</label>
+                <select asp-for="ArticuloId" class="form-control">
+                    <option value="0"> --Seleccione un Articulo-- </option>
+                    @if (Model.posiblesArticulos != null)
+                    {
+                        @foreach (var articulos in Model.posiblesArticulos)
+                        {
+                            <option value="@articulos.Id">@articulos.Nombre</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MailEncargado">Encargado:</label>
+                <select asp-for="MailEncargado" class="form-control">
+                    <option value="0">--Seleccione un Encargado--</option>
+                    @if (Model.posiblesEncargados != null)
+                    {
+                        @foreach (var encargados in Model.posiblesEncargados)
+                        {
+                            <option value="@encargados.Email">@encargados.Email</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Crear" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Volver</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

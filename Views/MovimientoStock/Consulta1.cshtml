@@ -1,0 +1,106 @@
+﻿@model Obligatorio2_P3.ViewModels.Conulta1FormViewModel
+
+@using Obligatorio2_P3.DTO
+
+
+@{
+    ViewData["Title"] = "Filtro por Articulo y Tipo Movimiento";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Consulta1" method="post">
+    <label for="articuloId">Ingrese un ArticuloID:</label>
+    <input id="articuloId" name="articuloId" type="number" />
+
+    <label for="tipoMovimiento">Ingrese un Tipo de Movimiento: </label>
+    <input id="tipoMovimiento" name="tipoMovimiento" type="text" />
+
+    <button type="submit">Buscar</button>
+</form>
+
+
+<p>
+    <a asp-action="Index">Volver</a>
+</p>
+
+<input id="skip" type="text" hidden value="@ViewBag.Skip" />
+<input id="take" type="text" hidden value="@ViewBag.Take" />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID Articulo</th>
+            <th>Fecha</th>
+            <th>Cantidad</th>
+            <th>ID Tipo de Movimiento</th>
+            <th>Encargado</th>
+        </tr>
+    </thead>
+    @if (ViewBag.MovimientoResponseConsulta1 != null)
+    {
+        <tbody>
+            @foreach (MovimientoStockDTO item in ViewBag.MovimientoResponseConsulta1.Movimientos)
+            {
+                <tr>
+
+                    <td>@item.ArticuloId</td>
+                    <td>@item.FechaMovimiento</td>
+                    <td>@item.Cantidad</td>
+                    <td>@item.TipoMovimientoId</td>
+                    <td>@item.MailEncargado</td>
+
+                </tr>
+            }
+        </tbody>
+    }
+</table>
+
+<div class="row">
+    @if (ViewBag.PaginaActual == 1)
+    {
+        <div class="col-lgl2">
+            <button id="PageBack" type="button" disabled="disabled">Previa</button>
+        </div>
+    }
+    else
+    {
+        <div class="col-lgl2">
+            <button id="PageBack" type="button">Previa</button>
+        </div>
+    }
+
+    @if (ViewBag.PaginaActual == ViewBag.TotalPaginas)
+    {
+        <div class="col-lgl2">
+            <button id="PageNext" type="button" disabled="disabled">Siguiente</button>
+        </div>
+    }
+    else
+    {
+        <div class="col-lgl2">
+            <button id="PageNext" type="button">Siguiente</button>
+        </div>
+    }
+</div>
+
+@section Scripts
+{
+    <script>
+
+        const buttonPageBack = document.getElementById("PageBack");
+        buttonPageBack.addEventListener("click", () => {
+            const skip = document.getElementById("skip").value;
+            const take = document.getElementById("take").value;
+            window.location.href = `MovimientoStock/PageBack?skip=${skip}&take=${take}`;
+        })
+
+        const buttonPageNext = document.getElementById("PageNext");
+        buttonPageNext.addEventListener("click", () => {
+            const skip = document.getElementById("skip").value;
+            const take = document.getElementById("take").value;
+            window.location.href = `MovimientoStock/PageNext?skip=${skip}&take=${take}`;
+        })
+
+    </script>
+}
